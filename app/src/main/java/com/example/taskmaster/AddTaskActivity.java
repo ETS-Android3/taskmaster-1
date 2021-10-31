@@ -24,6 +24,7 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast addTask= Toast.makeText(getApplicationContext(),"new Task added", Toast.LENGTH_SHORT);
                 addTask.show();
+
             }
         });
     }
