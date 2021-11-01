@@ -3,7 +3,9 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,42 +41,56 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-        //Intent Put and Get Extras (share data between Activities)
-
-        findViewById(R.id.taskId1).setOnClickListener(new View.OnClickListener() {
+        Button settings= findViewById(R.id.settingsId);
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,TaskDetail.class);
-
-                TextView text = findViewById(R.id.textView7);
-                String name = text.getText().toString();
-//               this will work if we navigate to to the activity right away and that is why we are gonna change it to SharedPreference
-//                 store as key and value to pass
-                intent.putExtra("title",name);
-
-               startActivity(intent);
+                Intent intent= new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
             }
         });
 
+
+
+        findViewById(R.id.taskId1).setOnClickListener(view -> {
+            Intent task1 = new Intent(MainActivity.this,TaskDetail.class);
+
+            TextView text = findViewById(R.id.taskId1);
+            String title = text.getText().toString();
+            task1.putExtra("Title",title);
+            startActivity(task1);
+        });
+
+        findViewById(R.id.task2Id).setOnClickListener(view -> {
+            Intent task2 = new Intent(MainActivity.this,TaskDetail.class);
+
+            TextView text = findViewById(R.id.task2Id);
+            String title = text.getText().toString();
+            task2.putExtra("Title",title);
+            startActivity(task2);
+        });
+
+        findViewById(R.id.task3Id).setOnClickListener(view -> {
+            Intent task3 = new Intent(MainActivity.this,TaskDetail.class);
+
+            TextView text = findViewById(R.id.task3Id);
+            String title = text.getText().toString();
+            task3.putExtra("Title",title);
+            startActivity(task3);
+        });
+
+
     }
 
-    public void getTask1(View view) {
-        Intent taskDetail = new Intent(this,TaskDetail.class);
-        taskDetail.putExtra("title", "Task1");
-        startActivity(taskDetail);
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userName = sharedPreferences.getString("userName","Go and set the username");
+
+        TextView setUserName = findViewById(R.id.userNameId);
+        setUserName.setText(userName + "'s tasks");
     }
 
-    public void getTask2(View view) {
-        Intent taskDetail = new Intent(this,TaskDetail.class);
-        taskDetail.putExtra("title", "Task2");
-        startActivity(taskDetail);
-    }
-
-    public void getTask3(View view) {
-        Intent taskDetail = new Intent(this,TaskDetail.class);
-        taskDetail.putExtra("title", "Task3");
-        startActivity(taskDetail);
-    }
 
 
    // Life cycle of the activities
@@ -87,11 +103,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         Log.i(TAG, "onStart called: ");
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume Called");
-    }
 
     @Override
     protected void onPause() {

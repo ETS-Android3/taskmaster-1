@@ -2,33 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/userNameId"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskDetail">
+    tools:context=".Settings">
 
-    <TextView
-        android:id="@+id/textView7"
+    <EditText
+        android:id="@+id/userNameId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
-        android:textSize="30dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="user name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintHorizontal_bias="0.269"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.181" />
+        app:layout_constraintVertical_bias="0.305" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="314dp"
-        android:layout_height="146dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque, orci quis mollis semper, metus augue vestibulum ipsum, ut commodo felis nisl nec dolor."
-        android:textSize="20dp"
+    <Button
+        android:id="@+id/saveId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
+        app:layout_constraintVertical_bias="0.552" />
 </androidx.constraintlayout.widget.ConstraintLayout>
