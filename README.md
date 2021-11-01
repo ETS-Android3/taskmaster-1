@@ -34,3 +34,29 @@ When the user click on the `ADD TASK` button it will show a message that the tas
 When the user click on `ALL TASK` button from home page it will take The user to this page(*All Task Page*). This page contains an image.
 
 ![All task page](./app/src/screenshots/img3.PNG)
+
+## Lab: 27 - Data in TaskMaster
+
+In This lab added three buttons on the main page, each button for one task that takes the user to the task detail page when the user clicks on it. Also, added a setting button on the home page that takes the user to the setting page.
+
+### Setting Activity
+
+This page contains a fild which the user can put his/her name and click on save buttons to save the name.
+
+![setting page](./app/src/screenshots/lab27SS4.PNG)
+
+### Main Activity
+
+The home page contains new four buttons. The first three buttons for tasks, Each button takes the user to a different task detail page. and the fourth button for the setting page that I showed you above. Also, the name that the user wrote on the setting page appears at the top of the main page.
+
+![main page](./app/src/screenshots/lab27SS1.PNG)
+
+### Task Detail Activity
+
+Task detail page appears when the user click on each task on the home page.
+
+![Task1 detail page](./app/src/screenshots/lab27SS2.PNG)
+
+![Task2 detail page](./app/src/screenshots/lab27SS3.PNG)
+
+![Task3 detail page](./app/src/screenshots/lab27SS5.PNG)
