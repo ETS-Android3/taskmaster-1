@@ -50,11 +50,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 @Override
                 public void onClick(View view) {
 //                    Log.d("my Adapter", "Element "+ getAdapterPosition() + " clicked");
-                   String title= allTaskData.get(getAdapterPosition()).getTitle();
+                    String title= allTaskData.get(getAdapterPosition()).getTitle();
+                    String body= allTaskData.get(getAdapterPosition()).getBody();
+                    String state= allTaskData.get(getAdapterPosition()).getState();
 
-                    Intent intent= new Intent(context,TaskDetail.class);
-                    intent.putExtra("title",title);
-                    context.startActivity(intent);
+                    Intent intent1= new Intent(context,TaskDetail.class);
+                    intent1.putExtra("title",title);
+                    context.startActivity(intent1);
+
+                    Intent intent2= new Intent(context,TaskDetail.class);
+                    intent2.putExtra("body",body);
+                    context.startActivity(intent2);
+
+                    Intent intent3= new Intent(context,TaskDetail.class);
+                    intent3.putExtra("state",state);
+                    context.startActivity(intent3);
 
                 }
             });

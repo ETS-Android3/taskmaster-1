@@ -54,33 +54,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.taskId1).setOnClickListener(view -> {
-            Intent task1 = new Intent(MainActivity.this,TaskDetail.class);
-
-            TextView text = findViewById(R.id.taskId1);
-            String title = text.getText().toString();
-            task1.putExtra("Title",title);
-            startActivity(task1);
-        });
-
-        findViewById(R.id.task2Id).setOnClickListener(view -> {
-            Intent task2 = new Intent(MainActivity.this,TaskDetail.class);
-
-            TextView text = findViewById(R.id.task2Id);
-            String title = text.getText().toString();
-            task2.putExtra("Title",title);
-            startActivity(task2);
-        });
-
-        findViewById(R.id.task3Id).setOnClickListener(view -> {
-            Intent task3 = new Intent(MainActivity.this,TaskDetail.class);
-
-            TextView text = findViewById(R.id.task3Id);
-            String title = text.getText().toString();
-            task3.putExtra("Title",title);
-            startActivity(task3);
-        });
-
         // create data to use in the view:
 
         ArrayList<Task> taskData = new ArrayList<Task>();
@@ -90,7 +63,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
         taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
         taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
-
 
 
         // get the Recyler view
