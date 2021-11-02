@@ -86,13 +86,11 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
     }
 
 
-
    // Life cycle of the activities
 
     @Override
     protected void onStart() {
         super.onStart();
-
 
         Log.i(TAG, "onStart called: ");
     }

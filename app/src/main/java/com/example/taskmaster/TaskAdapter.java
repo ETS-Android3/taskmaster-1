@@ -54,17 +54,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     String body= allTaskData.get(getAdapterPosition()).getBody();
                     String state= allTaskData.get(getAdapterPosition()).getState();
 
-                    Intent intent1= new Intent(context,TaskDetail.class);
-                    intent1.putExtra("title",title);
-                    context.startActivity(intent1);
+                    Intent intent= new Intent(context,TaskDetail.class);
+                    intent.putExtra("title",title);
+                    intent.putExtra("body",body);
+                    intent.putExtra("state",state);
+                    context.startActivity(intent);
 
-                    Intent intent2= new Intent(context,TaskDetail.class);
-                    intent2.putExtra("body",body);
-                    context.startActivity(intent2);
-
-                    Intent intent3= new Intent(context,TaskDetail.class);
-                    intent3.putExtra("state",state);
-                    context.startActivity(intent3);
 
                 }
             });
