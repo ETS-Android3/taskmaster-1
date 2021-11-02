@@ -43,7 +43,7 @@ In This lab added three buttons on the main page, each button for one task that 
 
 This page contains a fild which the user can put his/her name and click on save buttons to save the name.
 
-![setting page](./app/src/screenshots/lab27SS4.PNG)
+![setting page](./app/src/screenshots/lab27SS5.PNG)
 
 ### Main Activity
 
@@ -59,4 +59,4 @@ Task detail page appears when the user click on each task on the home page.
 
 ![Task2 detail page](./app/src/screenshots/lab27SS3.PNG)
 
-![Task3 detail page](./app/src/screenshots/lab27SS5.PNG)
+![Task3 detail page](./app/src/screenshots/lab27SS4.PNG)
