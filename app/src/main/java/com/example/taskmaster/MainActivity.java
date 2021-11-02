@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
@@ -77,6 +81,26 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             startActivity(task3);
         });
 
+        // create data to use in the view:
+
+        ArrayList<Task> taskData = new ArrayList<Task>();
+
+
+        taskData.add(new Task("TaskOne", "workout", "in progress"));
+        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
+        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
+        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
+
+
+
+        // get the Recyler view
+        RecyclerView allTaskRecyclerView = findViewById(R.id.recycleViewId);
+
+        // set a layout manager
+        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // set the adapter for this recycler view
+        allTaskRecyclerView.setAdapter(new TaskAdapter(taskData, this));
 
     }
 

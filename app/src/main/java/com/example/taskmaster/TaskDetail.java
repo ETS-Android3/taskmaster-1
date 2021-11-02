@@ -16,9 +16,19 @@ public class TaskDetail extends AppCompatActivity {
         //get the intent obj
         Intent intent = getIntent();
         //get using key the string you passed
-        String taskName = intent.getExtras().getString("Title");
+        String taskName = intent.getExtras().getString("title");
         TextView text = findViewById(R.id.textView7);
         text.setText(taskName);
+
+
+//
+//        String taskBody= intent.getExtras().getString("TASK_BODY");
+//        TextView textBody = findViewById(R.id.bodyFragId);
+//        textBody.setText(taskBody);
+//
+//        String taskState = intent.getExtras().getString("TASK_STATE");
+//        TextView textState = findViewById(R.id.stateFragId);
+//        textState.setText(taskState);
 
     }
 }
