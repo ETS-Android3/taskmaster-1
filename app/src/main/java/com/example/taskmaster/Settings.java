@@ -18,7 +18,7 @@ public class Settings extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
             findViewById(R.id.saveId).setOnClickListener(view -> {
-            TextView text = findViewById(R.id.userNameId);
+            TextView text = findViewById(R.id.userNameInput);
             String userName =text.getText().toString();
 
             editor.putString("userName",userName);

@@ -50,8 +50,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-
-
         findViewById(R.id.taskId1).setOnClickListener(view -> {
             Intent task1 = new Intent(MainActivity.this,TaskDetail.class);
 
