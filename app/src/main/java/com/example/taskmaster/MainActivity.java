@@ -1,6 +1,8 @@
 package com.example.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
@@ -50,33 +54,25 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.taskId1).setOnClickListener(view -> {
-            Intent task1 = new Intent(MainActivity.this,TaskDetail.class);
+        // create data to use in the view:
 
-            TextView text = findViewById(R.id.taskId1);
-            String title = text.getText().toString();
-            task1.putExtra("Title",title);
-            startActivity(task1);
-        });
+        ArrayList<Task> taskData = new ArrayList<Task>();
 
-        findViewById(R.id.task2Id).setOnClickListener(view -> {
-            Intent task2 = new Intent(MainActivity.this,TaskDetail.class);
 
-            TextView text = findViewById(R.id.task2Id);
-            String title = text.getText().toString();
-            task2.putExtra("Title",title);
-            startActivity(task2);
-        });
+        taskData.add(new Task("TaskOne", "workout", "in progress"));
+        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
+        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
+        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
 
-        findViewById(R.id.task3Id).setOnClickListener(view -> {
-            Intent task3 = new Intent(MainActivity.this,TaskDetail.class);
 
-            TextView text = findViewById(R.id.task3Id);
-            String title = text.getText().toString();
-            task3.putExtra("Title",title);
-            startActivity(task3);
-        });
+        // get the Recyler view
+        RecyclerView allTaskRecyclerView = findViewById(R.id.recycleViewId);
 
+        // set a layout manager
+        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // set the adapter for this recycler view
+        allTaskRecyclerView.setAdapter(new TaskAdapter(taskData, this));
 
     }
 
@@ -90,13 +86,11 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
     }
 
 
-
    // Life cycle of the activities
 
     @Override
     protected void onStart() {
         super.onStart();
-
 
         Log.i(TAG, "onStart called: ");
     }
