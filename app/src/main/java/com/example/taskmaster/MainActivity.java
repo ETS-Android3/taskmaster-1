@@ -3,6 +3,7 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,10 +15,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     private static final String TAG = "check";
+
+
+    private AppDatabase database;
+    private TaskDao taskDao;
+    private List<Task> tasksList;
 
 
     @Override
@@ -55,24 +62,34 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         });
 
         // create data to use in the view:
+       // ArrayList<Task> taskData = new ArrayList<Task>();
+//        taskData.add(new Task("TaskOne", "workout", "in progress"));
+//        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
+//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
+//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
 
-        ArrayList<Task> taskData = new ArrayList<Task>();
+        // initialaize databse connection and getall
+        // store the result in an array list
+        // replace the ArrayList<Student> studentData with the created list
 
 
-        taskData.add(new Task("TaskOne", "workout", "in progress"));
-        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
-        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
-        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
+
+        database= Room.databaseBuilder(getApplicationContext(),
+                AppDatabase.class, "AppDatabase").allowMainThreadQueries().build();
 
 
-        // get the Recyler view
+        taskDao = database.taskDao();
+        tasksList = taskDao.getAll();
+
+
+                // get the Recyler view
         RecyclerView allTaskRecyclerView = findViewById(R.id.recycleViewId);
 
         // set a layout manager
         allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // set the adapter for this recycler view
-        allTaskRecyclerView.setAdapter(new TaskAdapter(taskData, this));
+        allTaskRecyclerView.setAdapter(new TaskAdapter(tasksList, this));
 
     }
 
