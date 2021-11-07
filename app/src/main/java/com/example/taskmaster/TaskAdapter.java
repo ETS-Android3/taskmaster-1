@@ -29,7 +29,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     }
 
-
     // create the view holder class (wrap the data and the view)
     //note : we create a static inner class inorder to create a view holder without create instances
 
