@@ -4,11 +4,24 @@ package com.example.taskmaster;
 // create the model class
 // create the fragment (represent a single). it created to be used over and over again to cover all the data items
 // create adapter
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Task {
 
+    @PrimaryKey(autoGenerate = true)
+    public Long id;
 
+    @ColumnInfo(name = "task_title")
     private final String title;
+
+    @ColumnInfo(name = "task_body")
     private final String body;
+
+    @ColumnInfo(name = "task_state")
     private final String state ;
 
 
