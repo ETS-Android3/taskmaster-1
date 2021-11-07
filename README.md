@@ -112,4 +112,4 @@ To test when you tap on a task, and then assert that the resulting activity disp
 
 
 
-![EsspressoTest](Lab31-espresso-test.PNG)
+![EsspressoTest](./app/src/screenshots/Lab31-espresso-test.PNG)
