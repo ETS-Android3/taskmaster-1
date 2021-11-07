@@ -111,5 +111,4 @@ To test if you edit the user’s username, and then assert that it says the corr
 To test when you tap on a task, and then assert that the resulting activity displays the title, body and state of that task in task detail page.
 
 
-
-![EsspressoTest](./app/src/screenshots/Lab31-espresso-test.PNG)
+![EsspressoTest](./app/src/screenshots/lab31EspressoTest.PNG)
