@@ -90,3 +90,26 @@ On this page, Added a new field in which can the user writes the title and descr
 
 ![home page](./app/src/screenshots/lab29SS1.PNG)
 
+
+
+## Lab 31: Espresso and Polish
+
+* In This lab I tets the code by using Espresso test.
+
+* I created 3 test:
+
+1. `elementsUI()`
+
+To test the important UI elements are displayed on the Add Task page.
+
+2. `addTaskFun()`
+
+To test if you edit the user’s username, and then assert that it says the correct thing on the homepage.
+
+3. `displayTaskName()`
+
+To test when you tap on a task, and then assert that the resulting activity displays the title, body and state of that task in task detail page.
+
+
+
+![EsspressoTest](Lab31-espresso-test.PNG)
