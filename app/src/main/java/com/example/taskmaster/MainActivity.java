@@ -16,19 +16,23 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Handler;
+
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     private static final String TAG = "check";
-
+    private Handler handler;
 
     private AppDatabase database;
     private TaskDao taskDao;
     private List<Task> tasksList;
+
 
 
     @Override
@@ -64,18 +68,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // create data to use in the view:
-       // ArrayList<Task> taskData = new ArrayList<Task>();
-//        taskData.add(new Task("TaskOne", "workout", "in progress"));
-//        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
-//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
-//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
-
-        // initialaize databse connection and getall
-        // store the result in an array list
-        // replace the ArrayList<Student> studentData with the created list
-
 
 
         database= Room.databaseBuilder(getApplicationContext(),

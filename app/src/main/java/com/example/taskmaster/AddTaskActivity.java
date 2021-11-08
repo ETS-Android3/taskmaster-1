@@ -4,13 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+
 public class AddTaskActivity extends AppCompatActivity {
 
+    private static final String TAG = "AddTaskActivity";
     public static int c =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,14 @@ public class AddTaskActivity extends AppCompatActivity {
                 Task task = new Task(taskTitle, taskDesc, taskState);
                 Long addedTaskID = AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
 
+                com.amplifyframework.datastore.generated.model.Task task1= com.amplifyframework.datastore.generated.model.Task.builder()
+                        .title(taskTitle)
+                        .body(taskDesc)
+                        .state(taskState)
+                        .build();
+
+                saveTaskToAPI(task1);
+
                 Intent mainIntent = new Intent(AddTaskActivity.this, MainActivity.class);
                 startActivity(mainIntent);
 
@@ -57,5 +70,15 @@ public class AddTaskActivity extends AppCompatActivity {
                 );
             }
         });
+
+
+    }
+
+
+    public void saveTaskToAPI(com.amplifyframework.datastore.generated.model.Task task) {
+        Amplify.API.mutate(ModelMutation.create(task),
+                success -> Log.i(TAG, "Saved item: " + task.getTitle()),
+                error -> Log.e(TAG, "Could not save item to API/dynamodb" + task.getTitle()));
+
     }
 }
