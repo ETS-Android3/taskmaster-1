@@ -9,6 +9,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.core.Amplify;
+
 @Entity
 public class Task {
 
@@ -44,6 +47,7 @@ public class Task {
     public String getState() {
         return state;
     }
+
 
 
 }

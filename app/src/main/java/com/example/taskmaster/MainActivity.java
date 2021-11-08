@@ -14,6 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.core.Amplify;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +95,19 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         // set the adapter for this recycler view
         allTaskRecyclerView.setAdapter(new TaskAdapter(tasksList, this));
 
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
     }
+
+
 
     protected void onResume() {
         super.onResume();
