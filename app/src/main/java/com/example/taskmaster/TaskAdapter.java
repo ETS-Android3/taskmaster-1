@@ -3,7 +3,6 @@ package com.example.taskmaster;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public TaskAdapter(List<Task> allTaskData,Context context) {
         this.allTaskData = allTaskData;
         this.context= context;
-
     }
+
 
     // create the view holder class (wrap the data and the view)
     //note : we create a static inner class inorder to create a view holder without create instances
@@ -58,7 +58,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     intent.putExtra("body",body);
                     intent.putExtra("state",state);
                     context.startActivity(intent);
-
 
                 }
             });
@@ -99,4 +98,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public int getItemCount() {
         return allTaskData.size();
     }
+
 }
+

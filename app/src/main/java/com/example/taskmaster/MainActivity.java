@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,15 +8,27 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import android.os.Handler;
+import com.amplifyframework.datastore.generated.model.Task;
+
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
@@ -27,10 +40,21 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
     private List<Task> tasksList;
 
 
+    RecyclerView recyclerView;
+    Handler handler;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //===================lab32
+
+        configureAmplify();
+
+        //======================
 
         Log.i(TAG, "onCreate: called");
 
@@ -61,38 +85,36 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-        // create data to use in the view:
-       // ArrayList<Task> taskData = new ArrayList<Task>();
-//        taskData.add(new Task("TaskOne", "workout", "in progress"));
-//        taskData.add(new Task("TaskTwo", "Review React js", "assigned"));
-//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
-//        taskData.add(new Task("TaskThree", "learned a new programing language", "new"));
 
-        // initialaize databse connection and getall
-        // store the result in an array list
-        // replace the ArrayList<Student> studentData with the created list
+        recyclerView = findViewById(R.id.recycleViewId);
+        getDataFromDynamoDBApi();
 
-
-
-        database= Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "AppDatabase").allowMainThreadQueries().build();
+        handler = new Handler(Looper.getMainLooper(), message -> {
+            if(tasksList.size() > 0){
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+            return false;
+        });
+    }
 
 
-        taskDao = database.taskDao();
-        tasksList = taskDao.getAll();
+    private void configureAmplify() {
+        try {
+            Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
+            Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
+            Amplify.configure(getApplicationContext());
 
-
-                // get the Recyler view
-        RecyclerView allTaskRecyclerView = findViewById(R.id.recycleViewId);
-
-        // set a layout manager
-        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // set the adapter for this recycler view
-        allTaskRecyclerView.setAdapter(new TaskAdapter(tasksList, this));
+            Log.i(TAG, "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e(TAG, "Could not initialize Amplify", error);
+        }
 
     }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -100,10 +122,25 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         TextView setUserName = findViewById(R.id.userNameId);
         setUserName.setText(userName + "'s tasks");
+        getDataFromDynamoDBApi();
     }
 
 
-   // Life cycle of the activities
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void getDataFromDynamoDBApi() {
+
+        Amplify.API.query(ModelQuery.list(Task.class),
+                success -> {
+                    tasksList = new ArrayList<>();
+                    success.getData().forEach(task -> tasksList.add(task));
+                    System.out.println(tasksList);
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e(TAG, "Could not initialize Amplify", error));
+    }
+
+
+    // Life cycle of the activities
 
     @Override
     protected void onStart() {
