@@ -112,3 +112,22 @@ To test when you tap on a task, and then assert that the resulting activity disp
 
 
 ![EsspressoTest](./app/src/screenshots/lab31EspressoTest.PNG)
+
+## Lab 32: Amplify and DynamoDB
+
+In this lab I implemented **AWS amplify** to access the data in **DynamoDB** insted of **Room**.
+
+### Add Task Activity
+
+Now when the user add new task in the add task page, The task will stor in the **DynamoDb** data base and also in the room to reach it if the user offline.
+
+### Main Activity
+
+I refactored the homepage's **RecyclerView** to display all Task entities in **DynamoDB**.
+
+![tasks In Homepage](./app/src/screenshots/lab32SS1.PNG)
+
+* This is screenshot for the tasks in the **DynamoDb**
+
+![tasks in DynamoDB](./app/src/screenshots/lab32SS2.PNG)
+

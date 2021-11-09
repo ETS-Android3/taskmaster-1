@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,7 +8,9 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -24,19 +27,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Handler;
+import com.amplifyframework.datastore.generated.model.Task;
 
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     private static final String TAG = "check";
-    private Handler handler;
+
 
     private AppDatabase database;
     private TaskDao taskDao;
     private List<Task> tasksList;
 
 
+    RecyclerView recyclerView;
+    Handler handler;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +54,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         configureAmplify();
 
-
-        getTaskDataFromAPI();
-
-
-
-        //======================================
-
+        //======================
 
         Log.i(TAG, "onCreate: called");
 
@@ -84,51 +86,19 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         });
 
 
-        database= Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "AppDatabase").allowMainThreadQueries().build();
+        recyclerView = findViewById(R.id.recycleViewId);
+        getDataFromDynamoDBApi();
 
-
-        taskDao = database.taskDao();
-        tasksList = taskDao.getAll();
-
-
-                // get the Recyler view
-        RecyclerView allTaskRecyclerView = findViewById(R.id.recycleViewId);
-
-        // set a layout manager
-        allTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // set the adapter for this recycler view
-        allTaskRecyclerView.setAdapter(new TaskAdapter(tasksList, this));
-
-
+        handler = new Handler(Looper.getMainLooper(), message -> {
+            if(tasksList.size() > 0){
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+            return false;
+        });
     }
 
-
-    private void getTaskDataFromAPI() {
-        List<Task> taskItemLists = new ArrayList<>();
-        Amplify.API.query(ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
-                response -> {
-                    for (com.amplifyframework.datastore.generated.model.Task task : response.getData()) {
-                        tasksList.add(new Task(task.getTitle(), task.getBody(), task.getState()));
-                        Log.i(TAG, "onCreate: the tasks are => " + task.getTitle());
-                    }
-                    handler.sendEmptyMessage(1);
-                },
-                error -> {
-                    Log.e(TAG, "onCreate: Failed to get tasks => " + error.toString());
-                    tasksList = showTasksSavedInDataBase();
-                    handler.sendEmptyMessage(1);
-                });
-    }
-
-    private List<Task> showTasksSavedInDataBase(){
-        AppDatabase taskDatabase = Room.databaseBuilder(this, AppDatabase.class, "tasks")
-                .allowMainThreadQueries().build();
-        TaskDao taskDao = taskDatabase.taskDao();
-        return taskDao.findAll();
-
-    }
 
     private void configureAmplify() {
         try {
@@ -141,7 +111,10 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             Log.e(TAG, "Could not initialize Amplify", error);
         }
 
+    }
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -149,10 +122,25 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         TextView setUserName = findViewById(R.id.userNameId);
         setUserName.setText(userName + "'s tasks");
+        getDataFromDynamoDBApi();
     }
 
 
-   // Life cycle of the activities
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void getDataFromDynamoDBApi() {
+
+        Amplify.API.query(ModelQuery.list(Task.class),
+                success -> {
+                    tasksList = new ArrayList<>();
+                    success.getData().forEach(task -> tasksList.add(task));
+                    System.out.println(tasksList);
+                    handler.sendEmptyMessage(1);
+                },
+                error -> Log.e(TAG, "Could not initialize Amplify", error));
+    }
+
+
+    // Life cycle of the activities
 
     @Override
     protected void onStart() {
