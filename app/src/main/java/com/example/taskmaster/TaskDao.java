@@ -19,4 +19,6 @@ public interface TaskDao {
     @Insert
     Long insertTask(Task task); // void: is not gonna return anytihng where the long return the id of the inserted task
 
+    @Query("SELECT * FROM Task")
+    List<Task> findAll();
 }

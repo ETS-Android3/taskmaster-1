@@ -51,13 +51,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 Task task = new Task(taskTitle, taskDesc, taskState);
                 Long addedTaskID = AppDatabase.getInstance(getApplicationContext()).taskDao().insertTask(task);
 
-                com.amplifyframework.datastore.generated.model.Task task1= com.amplifyframework.datastore.generated.model.Task.builder()
-                        .title(taskTitle)
-                        .body(taskDesc)
-                        .state(taskState)
-                        .build();
-
-                saveTaskToAPI(task1);
 
                 Intent mainIntent = new Intent(AddTaskActivity.this, MainActivity.class);
                 startActivity(mainIntent);
@@ -68,6 +61,18 @@ public class AddTaskActivity extends AppCompatActivity {
                                 +
                                 "++++++++++++++++++++++++++++++++++++++++++++++++++"
                 );
+
+                // =================lab32
+
+                com.amplifyframework.datastore.generated.model.Task task1= com.amplifyframework.datastore.generated.model.Task.builder()
+                        .title(taskTitle)
+                        .body(taskDesc)
+                        .state(taskState)
+                        .build();
+
+                saveTaskToAPI(task1);
+
+
             }
         });
 
@@ -81,4 +86,16 @@ public class AddTaskActivity extends AppCompatActivity {
                 error -> Log.e(TAG, "Could not save item to API/dynamodb" + task.getTitle()));
 
     }
+
+// writing to DataBase
+
+//    Post post = Post.builder()
+//            .title("Create an Amplify DataStore app")
+//            .status(PostStatus.PUBLISHED)
+//            .build();
+//
+//Amplify.DataStore.save(post,
+//    result -> Log.i("MyAmplifyApp", "Created a new post successfully"),
+//    error -> Log.e("MyAmplifyApp",  "Error creating post", error)
+//            );
 }

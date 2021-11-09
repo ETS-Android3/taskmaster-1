@@ -18,11 +18,13 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Handler;
+
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
@@ -39,6 +41,18 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //===================lab32
+
+        configureAmplify();
+
+
+        getTaskDataFromAPI();
+
+
+
+        //======================================
+
 
         Log.i(TAG, "onCreate: called");
 
@@ -88,17 +102,44 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         allTaskRecyclerView.setAdapter(new TaskAdapter(tasksList, this));
 
 
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
     }
 
+
+    private void getTaskDataFromAPI() {
+        List<Task> taskItemLists = new ArrayList<>();
+        Amplify.API.query(ModelQuery.list(com.amplifyframework.datastore.generated.model.Task.class),
+                response -> {
+                    for (com.amplifyframework.datastore.generated.model.Task task : response.getData()) {
+                        tasksList.add(new Task(task.getTitle(), task.getBody(), task.getState()));
+                        Log.i(TAG, "onCreate: the tasks are => " + task.getTitle());
+                    }
+                    handler.sendEmptyMessage(1);
+                },
+                error -> {
+                    Log.e(TAG, "onCreate: Failed to get tasks => " + error.toString());
+                    tasksList = showTasksSavedInDataBase();
+                    handler.sendEmptyMessage(1);
+                });
+    }
+
+    private List<Task> showTasksSavedInDataBase(){
+        AppDatabase taskDatabase = Room.databaseBuilder(this, AppDatabase.class, "tasks")
+                .allowMainThreadQueries().build();
+        TaskDao taskDao = taskDatabase.taskDao();
+        return taskDao.findAll();
+
+    }
+
+    private void configureAmplify() {
+        try {
+            Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
+            Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
+            Amplify.configure(getApplicationContext());
+
+            Log.i(TAG, "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e(TAG, "Could not initialize Amplify", error);
+        }
 
 
     protected void onResume() {
