@@ -85,7 +85,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
             }
         });
 
-
         recyclerView = findViewById(R.id.recycleViewId);
         getDataFromDynamoDBApi();
 
