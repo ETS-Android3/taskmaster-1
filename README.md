@@ -131,3 +131,28 @@ I refactored the homepage's **RecyclerView** to display all Task entities in **D
 
 ![tasks in DynamoDB](./app/src/screenshots/lab32SS2.PNG)
 
+## Lab 33: Related Data
+
+### Add Task Activity
+
+Modify the Add Task form to include either a Spinner for which team that task belongs to.
+
+![Add Task Page](./app/src/screenshots/lab33-SS3.PNG)
+
+
+### Setting Activity
+
+In addition to a username, allow the user to choose their team on the Settings page. Use that Team to display only that team’s tasks on the homepage.
+
+![settings page]()
+
+### ### Main Activity
+
+When the user chooses the team, the tasks will display on the home page, and at the top of the page, the team name will display.
+![Main Page](./app/src/screenshots/lab33-SS2.PNG)
+
+* Picturs below for **DynamoDB**:
+
+![teams Tabl](./app/src/screenshots/lab33-SS1.PNG)
+
+
