@@ -9,8 +9,8 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 50,
-              "description": "lab33"
+              "apiKeyExpirationDays": 60,
+              "description": "kkey"
             }
           }
         }

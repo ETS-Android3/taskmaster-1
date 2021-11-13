@@ -2,4 +2,11 @@
     <string name="app_name">TaskMaster</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="teams">
+        <item>Team A</item>
+        <item>Team B</item>
+        <item>Team C</item>
+    </string-array>
 </resources>

@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
@@ -27,8 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Handler;
-import com.amplifyframework.datastore.generated.model.Task;
 
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     RecyclerView recyclerView;
     Handler handler;
+    Handler handler2;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -53,48 +57,60 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         //===================lab32
 
         configureAmplify();
+//        seedTeams();
 
         //======================
 
         Log.i(TAG, "onCreate: called");
 
-        Button addTaskButton= findViewById(R.id.addTask);
+        Button addTaskButton = findViewById(R.id.addTask);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this, AddTaskActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });
 
-        Button showAllTasks= findViewById(R.id.allTasks);
+        Button showAllTasks = findViewById(R.id.allTasks);
         showAllTasks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this, AllTasksActivity.class);
+                Intent intent = new Intent(MainActivity.this, AllTasksActivity.class);
                 startActivity(intent);
             }
         });
 
-        Button settings= findViewById(R.id.settingsId);
+        Button settings = findViewById(R.id.settingsId);
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(MainActivity.this, Settings.class);
+                Intent intent = new Intent(MainActivity.this, Settings.class);
                 startActivity(intent);
             }
         });
-
 
         recyclerView = findViewById(R.id.recycleViewId);
         getDataFromDynamoDBApi();
 
         handler = new Handler(Looper.getMainLooper(), message -> {
-            if(tasksList.size() > 0){
+            if (tasksList.size() > 0) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
                 recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
+            return false;
+        });
+
+        handler2 = new Handler(Looper.getMainLooper(), message -> {
+            String teamID = message.getData().getString("teamID");
+            Amplify.API.query(ModelQuery.list(Task.class, Task.TEAM_ID.contains(teamID)),// edit team_id and add team obj or team name and query by it
+                    success -> {
+                        tasksList = new ArrayList<>();
+                        success.getData().forEach(task -> tasksList.add(task));
+                        handler.sendEmptyMessage(1);
+                    },
+                    error -> Log.e(TAG, "Could not initialize Amplify", error));
             return false;
         });
     }
@@ -113,31 +129,65 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String userName = sharedPreferences.getString("userName","Go and set the username");
+        String userName = sharedPreferences.getString("userName", "Go and set the username");
 
         TextView setUserName = findViewById(R.id.userNameId);
         setUserName.setText(userName + "'s tasks");
         getDataFromDynamoDBApi();
     }
 
+    private void seedTeams() {
+        String[] teams = getResources().getStringArray(R.array.teams);
+        Team teamObj;
+
+        for (String team : teams) {
+            teamObj = Team.builder().name(team).build();
+            Amplify.API.mutate(ModelMutation.create(teamObj),
+                    res -> Log.i("MainActivity", String.format("Team %s has been successfully saved!", team)),
+                    error -> Log.i("MainActivity", error.getMessage()));
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getDataFromDynamoDBApi() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = sharedPreferences.getString("team", "Team A");
+        final Team[] team = new Team[1];
 
-        Amplify.API.query(ModelQuery.list(Task.class),
-                success -> {
-                    tasksList = new ArrayList<>();
-                    success.getData().forEach(task -> tasksList.add(task));
-                    System.out.println(tasksList);
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e(TAG, "Could not initialize Amplify", error));
+        Amplify.API.query(ModelQuery.list(Team.class, Team.NAME.contains(name)),
+                res -> {
+                    String teamID = null;
+                    for (Team item: res.getData()
+                         ) {
+                        teamID = item.getId();
+                    }
+                    Bundle bundle = new Bundle();
+                    bundle.putString("teamID", teamID);
+
+                    Message message = new Message();
+                    message.setData(bundle);
+
+                    handler2.sendMessage(message);
+                }
+
+                , error -> Log.i("MainActivity", error.getMessage()));
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    private void getDataFromDynamoDBApi() {
+//        Amplify.API.query(ModelQuery.list(Task.class),
+//                success -> {
+//                    tasksList = new ArrayList<>();
+//                    success.getData().forEach(task -> tasksList.add(task));
+//                    System.out.println(tasksList);
+//                    handler.sendEmptyMessage(1);
+//                },
+//                error -> Log.e(TAG, "Could not initialize Amplify", error));
+//    }
 
 
     // Life cycle of the activities
