@@ -162,8 +162,6 @@ public final class Task implements Model {
 
   public interface TeamIdStep {
     BuildStep teamId(String teamId);
-
-      Task build();
   }
   
 
