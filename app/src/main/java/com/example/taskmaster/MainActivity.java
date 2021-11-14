@@ -36,7 +36,7 @@ import com.amplifyframework.datastore.generated.model.Team;
 public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     private static final String TAG = "check";
-    
+
     private AppDatabase database;
     private TaskDao taskDao;
     private List<Task> tasksList;
