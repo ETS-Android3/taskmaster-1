@@ -37,7 +37,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
     private static final String TAG = "check";
 
-
     private AppDatabase database;
     private TaskDao taskDao;
     private List<Task> tasksList;
@@ -56,7 +55,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         //===================lab32
 
-        configureAmplify();
+//        configureAmplify();
 //        seedTeams();
 
         //======================
@@ -138,6 +137,9 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         TextView setUserName = findViewById(R.id.userNameId);
         setUserName.setText(userName + "'s tasks");
         getDataFromDynamoDBApi();
+
+        recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
+        recyclerView.getAdapter().notifyDataSetChanged();
     }
 
     private void seedTeams() {

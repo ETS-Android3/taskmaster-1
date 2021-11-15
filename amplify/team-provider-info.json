@@ -23,6 +23,11 @@
       "StackName": "amplify-taskmaster-doaa-215544",
       "StackId": "arn:aws:cloudformation:me-south-1:859171209928:stack/amplify-taskmaster-doaa-215544/de592420-40cd-11ec-b41d-0eb945456b84",
       "AmplifyAppId": "d2tgqxw24ztju5"
+    },
+    "categories": {
+      "auth": {
+        "taskmastereea0b103": {}
+      }
     }
   }
 }

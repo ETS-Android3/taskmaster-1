@@ -131,3 +131,53 @@ I refactored the homepage's **RecyclerView** to display all Task entities in **D
 
 ![tasks in DynamoDB](./app/src/screenshots/lab32SS2.PNG)
 
+## Lab 33: Related Data
+
+### Add Task Activity
+
+Modify the Add Task form to include either a Spinner for which team that task belongs to.
+
+![Add Task Page](./app/src/screenshots/lab33SS2.PNG)
+
+### Setting Activity
+
+In addition to a username, allow the user to choose their team on the Settings page. Use that Team to display only that team’s tasks on the homepage.
+
+![settings page](./app/src/screenshots/lab33SS5.PNG)
+
+### ### Main Activity
+
+![Tasks Table](./app/src/screenshots/lab33SS3.PNG)
+
+* Picturs below for **DynamoDB**:
+
+![teams Tabl](./app/src/screenshots/lab33SS4.PNG)
+
+![Tasks Table](./app/src/screenshots/lab33SS1.PNG)
+
+## Lab: 36 - Cognito
+
+### Sign Up page
+
+we have this page to permit the user to make a new account.
+
+![signup](./app/src/screenshots/lab36SS3.PNG)
+
+
+### Verification Page
+
+after the user signup he/she will receved a verification code on his/her Email and in this page they should write that code.
+
+![ver](./app/src/screenshots/lab36SS4.PNG)
+
+### Signin Page
+
+On this page, after they have an account they can use this page to login into the application.
+
+![login](./app/src/screenshots/lab36SS2.PNG)
+
+### Cognito
+
+Here We can see every user thay have an account
+
+![Cognito](./app/src/screenshots/lab36SS1.PNG)
