@@ -55,7 +55,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         //===================lab32
 
-        configureAmplify();
+//        configureAmplify();
 //        seedTeams();
 
         //======================
