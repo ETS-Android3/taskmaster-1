@@ -161,8 +161,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         Amplify.API.query(ModelQuery.list(Team.class, Team.NAME.contains(name)),
                 res -> {
                     String teamID = null;
-                    for (Team item: res.getData()
-                         ) {
+                    for (Team item: res.getData()) {
                         teamID = item.getId();
                     }
                     Bundle bundle = new Bundle();
