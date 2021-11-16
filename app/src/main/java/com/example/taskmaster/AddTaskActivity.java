@@ -36,14 +36,12 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-
         Spinner teamSpinner = findViewById(R.id.team_spinner);
 
         ArrayAdapter<CharSequence> teamArrayAdapter = ArrayAdapter.createFromResource(this, R.array.teams, android.R.layout.simple_spinner_item);
         teamArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(teamArrayAdapter);
-
-
+        
         getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -88,7 +86,6 @@ public class AddTaskActivity extends AppCompatActivity {
             textView.setText("Total Tasks: " + (taskCount + 1));
         });
     }
-
 
     @SuppressLint("SetTextI18n")
     @Override
