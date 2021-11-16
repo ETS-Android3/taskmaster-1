@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -73,7 +74,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             intent.putExtra("title",task.getTitle());
             intent.putExtra("body",task.getBody());
             intent.putExtra("state",task.getState());
-//            intent.putExtra("fileKey",task.getFileKey());
+            intent.putExtra("fileKey",task.getFileName());
             view.getContext().startActivity(intent);
         }
     }
@@ -107,6 +108,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         holder.task = allTaskData.get(position);
         TextView textView = holder.itemView.findViewById(R.id.titleFragId);
         textView.setText(holder.task.getTitle());
+//        ImageView image= holder.itemView.findViewById(R.id.imgeViewIdDetail);
+
 
     }
 

@@ -41,8 +41,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private String idTeam;
 
     //    LAB 37
-    String img = "";
-
+    String fileName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +122,7 @@ public class AddTaskActivity extends AppCompatActivity {
         try {
             InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
             OutputStream outputStream = new FileOutputStream(uploadFile);
-            img = data.getData().toString();
+            fileName = data.getData().toString();
             byte[] buff = new byte[1024];
             int length;
             while ((length = exampleInputStream.read(buff)) > 0) {
@@ -131,6 +130,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
             exampleInputStream.close();
             outputStream.close();
+            Log.i(TAG, "onActivityResult: onActivityResult");
             Amplify.Storage.uploadFile(
                     "image",
                     uploadFile,
