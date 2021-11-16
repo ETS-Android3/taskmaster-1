@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     // create the view holder class (wrap the data and the view)
     //note : we create a static inner class inorder to create a view holder without create instances
 
-    public class TaskViewHolder extends RecyclerView.ViewHolder{
+    public class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
         // create a model object
@@ -44,23 +45,37 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
+            this.itemView.setOnClickListener(this);
+        }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    Log.d("my Adapter", "Element "+ getAdapterPosition() + " clicked");
-                    String title= allTaskData.get(getAdapterPosition()).getTitle();
-                    String body= allTaskData.get(getAdapterPosition()).getBody();
-                    String state= allTaskData.get(getAdapterPosition()).getState();
 
-                    Intent intent= new Intent(context,TaskDetail.class);
-                    intent.putExtra("title",title);
-                    intent.putExtra("body",body);
-                    intent.putExtra("state",state);
-                    context.startActivity(intent);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+////                    Log.d("my Adapter", "Element "+ getAdapterPosition() + " clicked");
+//                    String title= allTaskData.get(getAdapterPosition()).getTitle();
+//                    String body= allTaskData.get(getAdapterPosition()).getBody();
+//                    String state= allTaskData.get(getAdapterPosition()).getState();
+//
+//                    Intent intent= new Intent(view.getContext(),TaskDetail.class);
+//                    intent.putExtra("title",title);
+//                    intent.putExtra("body",body);
+//                    intent.putExtra("state",state);
+//                    view.getContext().startActivity(intent);
+//
+//                }
+//            });
 
-                }
-            });
+
+        @Override
+        public void onClick(View view) {
+
+            Intent intent= new Intent(view.getContext(),TaskDetail.class);
+            intent.putExtra("title",task.getTitle());
+            intent.putExtra("body",task.getBody());
+            intent.putExtra("state",task.getState());
+            intent.putExtra("fileKey",task.getFileName());
+            view.getContext().startActivity(intent);
         }
     }
 
@@ -81,14 +96,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     @Override
     // this method will bind the data from the adapter to the view holder that we create
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
-        holder.task = allTaskData.get(position);
-        TextView taskTitle= holder.itemView.findViewById(R.id.titleFragId);
-        TextView taskBody= holder.itemView.findViewById(R.id.bodyFragId);
-        TextView taskState= holder.itemView.findViewById(R.id.stateFragId);
+//        holder.task = allTaskData.get(position);
+//        TextView taskTitle= holder.itemView.findViewById(R.id.titleFragId);
+//        TextView taskBody= holder.itemView.findViewById(R.id.bodyFragId);
+//        TextView taskState= holder.itemView.findViewById(R.id.stateFragId);
+//
+//        taskTitle.setText(holder.task.getTitle());
+//        taskBody.setText(holder.task.getBody());
+//        taskState.setText(holder.task.getState());
 
-        taskTitle.setText(holder.task.getTitle());
-        taskBody.setText(holder.task.getBody());
-        taskState.setText(holder.task.getState());
+        holder.task = allTaskData.get(position);
+        TextView textView = holder.itemView.findViewById(R.id.titleFragId);
+        textView.setText(holder.task.getTitle());
+//        ImageView image= holder.itemView.findViewById(R.id.imgeViewIdDetail);
+
 
     }
 

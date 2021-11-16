@@ -13,7 +13,7 @@
         android:text="Sign In"
         android:textAlignment="center"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/userNameSignInId"
+        app:layout_constraintBottom_toTopOf="@+id/EmailSignInId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +21,13 @@
         app:layout_constraintVertical_bias="0.557" />
 
     <EditText
-        android:id="@+id/userNameSignInId"
+        android:id="@+id/EmailSignInId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="44dp"
         android:ems="10"
+        android:hint="Email"
         android:inputType="textPersonName"
-        android:hint="userName"
         app:layout_constraintBottom_toTopOf="@+id/passwordSignInId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

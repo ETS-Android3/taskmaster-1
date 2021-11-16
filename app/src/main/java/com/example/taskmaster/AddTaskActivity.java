@@ -1,5 +1,6 @@
 package com.example.taskmaster;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -25,11 +26,22 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AddTaskActivity extends AppCompatActivity {
 
     private static final String TAG = "AddTaskActivity";
     public static Long taskCount;
     private String idTeam;
+
+    //    LAB 37
+    String fileName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,13 @@ public class AddTaskActivity extends AppCompatActivity {
         teamArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         teamSpinner.setAdapter(teamArrayAdapter);
 
+        Button addFile = findViewById(R.id.uploadFileId);
+        addFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFileFromDevice();
+            }
+        });
 
         getActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,6 +108,39 @@ public class AddTaskActivity extends AppCompatActivity {
         });
     }
 
+    private void getFileFromDevice() {
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.setType("*/*");
+        chooseFile = Intent.createChooser(chooseFile, "Choose a File");
+        startActivityForResult(chooseFile, 1234);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        File uploadFile = new File(getApplicationContext().getFilesDir(), "uploadFileCopied");
+        try {
+            InputStream exampleInputStream = getContentResolver().openInputStream(data.getData());
+            OutputStream outputStream = new FileOutputStream(uploadFile);
+            fileName = data.getData().toString();
+            byte[] buff = new byte[1024];
+            int length;
+            while ((length = exampleInputStream.read(buff)) > 0) {
+                outputStream.write(buff, 0, length);
+            }
+            exampleInputStream.close();
+            outputStream.close();
+            Log.i(TAG, "onActivityResult: onActivityResult");
+            Amplify.Storage.uploadFile(
+                    "image",
+                    uploadFile,
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     @Override

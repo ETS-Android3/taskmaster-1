@@ -54,10 +54,8 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //===================lab32
-
 //        configureAmplify();
 //        seedTeams();
-
         //======================
 
         Log.i(TAG, "onCreate: called");
@@ -140,6 +138,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
         recyclerView.getAdapter().notifyDataSetChanged();
+
     }
 
     private void seedTeams() {
@@ -189,7 +188,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 //                },
 //                error -> Log.e(TAG, "Could not initialize Amplify", error));
 //    }
-
 
     // Life cycle of the activities
 
