@@ -74,7 +74,7 @@ public class SignIn extends AppCompatActivity {
         // configure Amplify plugins
         try {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
+//            Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
             Amplify.configure(getApplicationContext());

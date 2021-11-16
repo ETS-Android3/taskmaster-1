@@ -38,19 +38,19 @@ public class TaskDetail extends AppCompatActivity {
             TextView textState = findViewById(R.id.textView9);
             textState.setText(taskState);
 
-            String img = extras.getString("img");
-            Amplify.Storage.downloadFile(
-                    "image",
-                    new File(getApplicationContext().getFilesDir() + "/download.jpg"),
-                    result -> {
-                        ImageView image = findViewById(R.id.imgeViewIdDetail);
-                        extras.getString("img");
-                        image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
-
-                        Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile());
-                    },
-                    error -> Log.e("MyAmplifyApp", "Download Failure", error)
-            );
+//            String img = extras.getString("img");
+//            Amplify.Storage.downloadFile(
+//                    "image",
+//                    new File(getApplicationContext().getFilesDir() + "/download.jpg"),
+//                    result -> {
+//                        ImageView image = findViewById(R.id.imgeViewIdDetail);
+//                        extras.getString("img");
+//                        image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+//
+//                        Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile());
+//                    },
+//                    error -> Log.e("MyAmplifyApp", "Download Failure", error)
+//            );
         }
     }
 }
