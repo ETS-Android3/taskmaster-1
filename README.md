@@ -90,8 +90,6 @@ On this page, Added a new field in which can the user writes the title and descr
 
 ![home page](./app/src/screenshots/lab29SS1.PNG)
 
-
-
 ## Lab 31: Espresso and Polish
 
 * In This lab I tets the code by using Espresso test.

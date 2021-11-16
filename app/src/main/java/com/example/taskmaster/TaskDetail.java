@@ -3,8 +3,15 @@ package com.example.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.amplifyframework.core.Amplify;
+
+import java.io.File;
 
 public class TaskDetail extends AppCompatActivity {
 
@@ -13,20 +20,37 @@ public class TaskDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        //get the intent obj
-        Intent intent = getIntent();
-        //get using key the string you passed
-        String taskName = intent.getExtras().getString("title");
-        TextView text = findViewById(R.id.textView7);
-        text.setText(taskName);
+        Bundle extras = getIntent().getExtras();
 
-        String taskBody= intent.getExtras().getString("body");
-        TextView textBody = findViewById(R.id.textView8);
-        textBody.setText(taskBody);
+        if (extras != null) {
+            //get the intent obj
+            Intent intent = getIntent();
+            //get using key the string you passed
+            String taskName = intent.getExtras().getString("title");
+            TextView text = findViewById(R.id.textView7);
+            text.setText(taskName);
 
-        String taskState = intent.getExtras().getString("state");
-        TextView textState = findViewById(R.id.textView9);
-        textState.setText(taskState);
+            String taskBody = intent.getExtras().getString("body");
+            TextView textBody = findViewById(R.id.textView8);
+            textBody.setText(taskBody);
 
+            String taskState = intent.getExtras().getString("state");
+            TextView textState = findViewById(R.id.textView9);
+            textState.setText(taskState);
+
+            String img = extras.getString("img");
+            Amplify.Storage.downloadFile(
+                    "image",
+                    new File(getApplicationContext().getFilesDir() + "/download.jpg"),
+                    result -> {
+                        ImageView image = findViewById(R.id.imgeViewIdDetail);
+                        extras.getString("img");
+                        image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+
+                        Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile());
+                    },
+                    error -> Log.e("MyAmplifyApp", "Download Failure", error)
+            );
+        }
     }
 }

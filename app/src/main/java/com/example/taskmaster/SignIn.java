@@ -9,13 +9,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 public class SignIn extends AppCompatActivity {
 
@@ -26,8 +26,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-
-        EditText username = findViewById(R.id.userNameSignInId);
+        EditText username = findViewById(R.id.EmailSignInId);
         EditText password = findViewById(R.id.passwordSignInId);
         Button signIn = findViewById(R.id.SignInId);
         Button signUp = findViewById(R.id.signOutId);
@@ -38,7 +37,6 @@ public class SignIn extends AppCompatActivity {
 
         signIn.setOnClickListener(view -> {
             signIn(username.getText().toString(), password.getText().toString());
-
 
             preferenceEditor.putString("userNameAPI",username.getText().toString());
             preferenceEditor.apply();
@@ -77,6 +75,7 @@ public class SignIn extends AppCompatActivity {
         try {
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
+            Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.addPlugin(new AWSApiPlugin()); // stores things in DynamoDB and allows us to perform GraphQL queries
             Amplify.configure(getApplicationContext());
             Log.i(TAG, "Successfully initialized Amplify plugins");

@@ -138,6 +138,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         recyclerView.setAdapter(new TaskAdapter(tasksList, getApplicationContext()));
         recyclerView.getAdapter().notifyDataSetChanged();
+
     }
 
     private void seedTeams() {
