@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -75,6 +76,19 @@ dependencies {
     implementation 'com.amplifyframework:aws-api:1.28.3'
     implementation 'com.amplifyframework:aws-datastore:1.28.3'
     implementation 'com.amplifyframework:aws-auth-cognito:1.28.3'
+
+
+    //38
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    // Overrides an auth dependency to ensure correct behavior
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+
+    // Import the BoM for the Firebase platform
+    implementation 'com.google.firebase:firebase-messaging'
+
+    implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.33.0'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
 
 }
 

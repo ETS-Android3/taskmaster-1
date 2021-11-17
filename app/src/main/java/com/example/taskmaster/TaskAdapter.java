@@ -53,11 +53,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     String body= allTaskData.get(getAdapterPosition()).getBody();
                     String state= allTaskData.get(getAdapterPosition()).getState();
 
-                    Intent intent= new Intent(context,TaskDetail.class);
+                    Intent intent= new Intent(view.getContext(),TaskDetail.class);
                     intent.putExtra("title",title);
                     intent.putExtra("body",body);
                     intent.putExtra("state",state);
-                    context.startActivity(intent);
+                    view.getContext().startActivity(intent);
 
                 }
             });
