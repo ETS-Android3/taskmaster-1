@@ -179,3 +179,29 @@ On this page, after they have an account they can use this page to login into th
 Here We can see every user thay have an account
 
 ![Cognito](./app/src/screenshots/lab36SS1.PNG)
+
+## Lab 37: S3
+
+In this lab, the app will allow users to upload files related to tasks.
+
+### Add Task Activity
+
+Modify the Add Task form to include **UPLOAD FILE** button to allow the user to upload a file.
+
+![upload file](./app/src/screenshots/lab37-S3SS2.PNG)
+
+### Task Detail Activity
+
+When the user clicks on the task card on the home page, the app will take him/her to the task detail page. On this page, the user can see the image that he/she uploads and also the link for download that file.
+
+![task detail](./app/src/screenshots/lab37-S1SS1.PNG)
+
+### AWS
+
+* This is the picture for the **S3** storage:
+
+![S3](./app/src/screenshots/lab37-S3SS4.PNG)
+
+* This picture for **DynamoDB**, and as we can see, the table has added a field for the uploaded file
+
+![Dynamo](./app/src/screenshots/lab37-s3-ss5.PNG)
