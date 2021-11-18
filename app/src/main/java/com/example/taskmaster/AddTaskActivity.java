@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.datastore.generated.model.Task;
 
@@ -47,6 +48,8 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+
+        recordEvent();
 
 
         Spinner teamSpinner = findViewById(R.id.team_spinner);
@@ -187,4 +190,16 @@ public class AddTaskActivity extends AppCompatActivity {
 //                success -> Log.i(TAG, "Saved item: " + success.getData().getTitle()),
 //                error -> Log.i(TAG, "Saved item: " + error.getMessage()));
 //    }
+
+    private void recordEvent(){
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("Launch Add Task Activity")
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", 120.3)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+    }
 }
