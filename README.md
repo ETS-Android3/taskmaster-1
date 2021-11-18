@@ -205,3 +205,16 @@ When the user clicks on the task card on the home page, the app will take him/he
 * This picture for **DynamoDB**, and as we can see, the table has added a field for the uploaded file
 
 ![Dynamo](./app/src/screenshots/lab37-s3-ss5.PNG)
+
+
+## Lab: 38 - Notifications
+
+In this lab, I add the ability for push notifications to be delivered to my app from the cloud by using **amplify** and **Firebase**. 
+
+![Notification](./app/src/screenshots/lab38-SS1.PNG)
+
+## Lab: 39 - Analytics
+
+In this lab, I add the ability to track. take review or feedback of all activites.
+
+![Analytics](./app/src/screenshots/lab39SS1.PNG)
