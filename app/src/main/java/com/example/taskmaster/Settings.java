@@ -12,12 +12,17 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.core.Amplify;
+
 public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        recordEvent();
 
         Spinner teamSpin = findViewById(R.id.settingTeamSpin);
 
@@ -43,6 +48,7 @@ public class Settings extends AppCompatActivity {
         });
 
 
+
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //
@@ -54,5 +60,17 @@ public class Settings extends AppCompatActivity {
 //            editor.apply();
 //
 //        });
+    }
+
+    private void recordEvent(){
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("Launch Setting Activity")
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", 120.3)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
     }
 }

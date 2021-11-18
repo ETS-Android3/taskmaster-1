@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
@@ -25,6 +27,8 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        recordEvent();
 
         EditText username = findViewById(R.id.EmailSignInId);
         EditText password = findViewById(R.id.passwordSignInId);
@@ -73,6 +77,7 @@ public class SignIn extends AppCompatActivity {
     private void configureAmplify() {
         // configure Amplify plugins
         try {
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
 //            Amplify.addPlugin(new AWSDataStorePlugin()); // stores records locally
             Amplify.addPlugin(new AWSS3StoragePlugin());
@@ -82,6 +87,18 @@ public class SignIn extends AppCompatActivity {
         } catch (AmplifyException exception) {
             Log.e(TAG, "Failed to initialize Amplify plugins => " + exception.toString());
         }
+    }
+
+    private void recordEvent(){
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("Launch Login activity")
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", 120.3)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
     }
 
 }

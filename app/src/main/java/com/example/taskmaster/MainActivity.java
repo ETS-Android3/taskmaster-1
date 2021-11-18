@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -53,6 +54,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recordEvent();
         //===================lab32
 //        configureAmplify();
 //        seedTeams();
@@ -175,6 +177,18 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
                 }
 
                 , error -> Log.i("MainActivity", error.getMessage()));
+    }
+
+    private void recordEvent(){
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("Launch Main Activity")
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", 120.3)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)

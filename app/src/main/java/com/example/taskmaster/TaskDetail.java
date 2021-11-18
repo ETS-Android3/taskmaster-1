@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.core.Amplify;
 
 import java.io.File;
@@ -19,6 +20,8 @@ public class TaskDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
+
+        recordEvent();
 
         Bundle extras = getIntent().getExtras();
 
@@ -52,5 +55,17 @@ public class TaskDetail extends AppCompatActivity {
                     error -> Log.e("MyAmplifyApp", "Download Failure", error)
             );
         }
+    }
+
+    private void recordEvent(){
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("Launch Task Details Activity")
+                .addProperty("Channel", "SMS")
+                .addProperty("Successful", true)
+                .addProperty("ProcessDuration", 792)
+                .addProperty("UserAge", 120.3)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
     }
 }
