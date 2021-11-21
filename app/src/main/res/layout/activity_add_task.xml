@@ -80,10 +80,10 @@
         android:text="Add Task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.172"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.728" />
+        app:layout_constraintVertical_bias="0.814" />
 
     <EditText
         android:id="@+id/taskTitleInputId"
@@ -145,9 +145,35 @@
         android:text="Upload File"
         app:layout_constraintBottom_toTopOf="@+id/addTask2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/team_spinner"
-        app:layout_constraintVertical_bias="0.533" />
+        app:layout_constraintVertical_bias="0.8" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/shareImageTextViewId"-->
+<!--        android:layout_width="63dp"-->
+<!--        android:layout_height="47dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:layout_marginEnd="104dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/uploadFileId"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/team_spinner"-->
+<!--        app:layout_constraintVertical_bias="0.175"-->
+<!--        app:srcCompat="@android:drawable/checkbox_off_background" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/shareButtonId"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="share Image"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.321"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/addTask2"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/shareImageTextViewId"-->
+<!--        app:layout_constraintVertical_bias="0.315" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +51,26 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+
+//        //lab 41
+//        Button sharePic = findViewById(R.id.shareButtonId);
+//        sharePic.setOnClickListener((view -> getIntent()));
+//
+//        Intent intent = getIntent();
+//        String action = intent.getAction();
+//        String type = intent.getType();
+//        ImageView image = findViewById(R.id.shareImageTextViewId);
+//        if (Intent.ACTION_SEND.equals(action) && type != null) {
+//            if (type.startsWith("image/")) {
+//                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+//                if (imageUri != null) {
+//                    image.setImageURI(imageUri);
+//                    image.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        }
+//
+////==================================================================================
         recordEvent();
 
 

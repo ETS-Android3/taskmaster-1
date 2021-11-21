@@ -28,7 +28,7 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        recordEvent();
+//        recordEvent();
 
         EditText username = findViewById(R.id.EmailSignInId);
         EditText password = findViewById(R.id.passwordSignInId);
@@ -89,16 +89,16 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
-    private void recordEvent(){
-        AnalyticsEvent event = AnalyticsEvent.builder()
-                .name("Launch Login activity")
-                .addProperty("Channel", "SMS")
-                .addProperty("Successful", true)
-                .addProperty("ProcessDuration", 792)
-                .addProperty("UserAge", 120.3)
-                .build();
-
-        Amplify.Analytics.recordEvent(event);
-    }
+//    private void recordEvent(){
+//        AnalyticsEvent event = AnalyticsEvent.builder()
+//                .name("Launch Login activity")
+//                .addProperty("Channel", "SMS")
+//                .addProperty("Successful", true)
+//                .addProperty("ProcessDuration", 792)
+//                .addProperty("UserAge", 120.3)
+//                .build();
+//
+//        Amplify.Analytics.recordEvent(event);
+//    }
 
 }
