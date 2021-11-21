@@ -52,25 +52,23 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
 
-//        //lab 41
-//        Button sharePic = findViewById(R.id.shareButtonId);
-//        sharePic.setOnClickListener((view -> getIntent()));
-//
-//        Intent intent = getIntent();
-//        String action = intent.getAction();
-//        String type = intent.getType();
-//        ImageView image = findViewById(R.id.shareImageTextViewId);
-//        if (Intent.ACTION_SEND.equals(action) && type != null) {
-//            if (type.startsWith("image/")) {
-//                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-//                if (imageUri != null) {
-//                    image.setImageURI(imageUri);
-//                    image.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }
-//
-////==================================================================================
+        //lab 41
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        ImageView image = findViewById(R.id.shareImageTextViewId);
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imageUri != null) {
+                    image.setImageURI(imageUri);
+                    image.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+//==================================================================================
         recordEvent();
 
 
