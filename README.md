@@ -218,3 +218,23 @@ In this lab, I add the ability for push notifications to be delivered to my app 
 In this lab, I add the ability to track. take review or feedback of all activites.
 
 ![Analytics](./app/src/screenshots/lab39SS1.PNG)
+
+
+# Lab: 41 - Intent Filters
+
+- Is to allow users to **share** a photo from another app and open TaskMaster, ready to upload that image as part of a new task.
+
+## Feature Tasks
+
+### Adding a Task from Another Application
+
+- Add an intent filter to the application such that a user can hit the **share** button on an image in another application, choose TaskMaster as the app to share that image with, and be taken directly to the Add a Task activity with that image pre-selected.
+
+## Screen Shots
+
+- *Getting the photo*
+![Getting the photo](./app/src/screenshots/lab41-SS2.PNG)
+
+- *Adding the photo to taskmaster*
+![Adding the photo](./app/src/screenshots/lab41-SS1.PNG)
+
