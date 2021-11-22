@@ -19,13 +19,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.888" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="118dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="16dp"
         android:foregroundGravity="center"
         android:text="Body"
         android:textAlignment="center"
@@ -33,14 +34,14 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.443"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="121dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="28dp"
         android:foregroundGravity="center"
         android:text="State"
         android:textAlignment="center"
@@ -54,23 +55,26 @@
     <ImageView
         android:id="@+id/imgeViewIdDetail"
         android:layout_width="144dp"
-        android:layout_height="64dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="326dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="296dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="305dp"
-        android:layout_height="196dp"
-        android:layout_marginBottom="68dp"
+        android:layout_width="259dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="69dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgeViewIdDetail"
-        app:layout_constraintVertical_bias="0.792" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
