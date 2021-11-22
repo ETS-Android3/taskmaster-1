@@ -11,10 +11,16 @@ import android.widget.TextView;
 
 import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.core.Amplify;
+import com.google.android.gms.maps.GoogleMap;
 
 import java.io.File;
 
 public class TaskDetail extends AppCompatActivity {
+
+    private GoogleMap googleMap;
+
+    private double lat;
+    private double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

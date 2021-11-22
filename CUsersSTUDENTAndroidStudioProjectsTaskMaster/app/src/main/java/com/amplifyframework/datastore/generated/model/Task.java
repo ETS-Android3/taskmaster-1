@@ -25,12 +25,18 @@ public final class Task implements Model {
   public static final QueryField TITLE = field("Task", "title");
   public static final QueryField BODY = field("Task", "body");
   public static final QueryField STATE = field("Task", "state");
+  public static final QueryField FILE_NAME = field("Task", "fileName");
   public static final QueryField TEAM_ID = field("Task", "teamId");
+  public static final QueryField LAT = field("Task", "lat");
+  public static final QueryField LON = field("Task", "lon");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="String", isRequired = true) String state;
+  private final @ModelField(targetType="String") String fileName;
   private final @ModelField(targetType="ID", isRequired = true) String teamId;
+  private final @ModelField(targetType="Float") Double lat;
+  private final @ModelField(targetType="Float") Double lon;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -49,8 +55,20 @@ public final class Task implements Model {
       return state;
   }
   
+  public String getFileName() {
+      return fileName;
+  }
+  
   public String getTeamId() {
       return teamId;
+  }
+  
+  public Double getLat() {
+      return lat;
+  }
+  
+  public Double getLon() {
+      return lon;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -61,12 +79,15 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String body, String state, String teamId) {
+  private Task(String id, String title, String body, String state, String fileName, String teamId, Double lat, Double lon) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.fileName = fileName;
     this.teamId = teamId;
+    this.lat = lat;
+    this.lon = lon;
   }
   
   @Override
@@ -81,7 +102,10 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
+              ObjectsCompat.equals(getFileName(), task.getFileName()) &&
               ObjectsCompat.equals(getTeamId(), task.getTeamId()) &&
+              ObjectsCompat.equals(getLat(), task.getLat()) &&
+              ObjectsCompat.equals(getLon(), task.getLon()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
@@ -94,7 +118,10 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getFileName())
       .append(getTeamId())
+      .append(getLat())
+      .append(getLon())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -109,7 +136,10 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("fileName=" + String.valueOf(getFileName()) + ", ")
       .append("teamId=" + String.valueOf(getTeamId()) + ", ")
+      .append("lat=" + String.valueOf(getLat()) + ", ")
+      .append("lon=" + String.valueOf(getLon()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -134,6 +164,9 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
@@ -143,7 +176,10 @@ public final class Task implements Model {
       title,
       body,
       state,
-      teamId);
+      fileName,
+      teamId,
+      lat,
+      lon);
   }
   public interface TitleStep {
     BodyStep title(String title);
@@ -168,6 +204,9 @@ public final class Task implements Model {
   public interface BuildStep {
     Task build();
     BuildStep id(String id);
+    BuildStep fileName(String fileName);
+    BuildStep lat(Double lat);
+    BuildStep lon(Double lon);
   }
   
 
@@ -177,6 +216,9 @@ public final class Task implements Model {
     private String body;
     private String state;
     private String teamId;
+    private String fileName;
+    private Double lat;
+    private Double lon;
     @Override
      public Task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -186,7 +228,10 @@ public final class Task implements Model {
           title,
           body,
           state,
-          teamId);
+          fileName,
+          teamId,
+          lat,
+          lon);
     }
     
     @Override
@@ -217,6 +262,24 @@ public final class Task implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep fileName(String fileName) {
+        this.fileName = fileName;
+        return this;
+    }
+    
+    @Override
+     public BuildStep lat(Double lat) {
+        this.lat = lat;
+        return this;
+    }
+    
+    @Override
+     public BuildStep lon(Double lon) {
+        this.lon = lon;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -229,12 +292,15 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, String state, String teamId) {
+    private CopyOfBuilder(String id, String title, String body, String state, String fileName, String teamId, Double lat, Double lon) {
       super.id(id);
       super.title(title)
         .body(body)
         .state(state)
-        .teamId(teamId);
+        .teamId(teamId)
+        .fileName(fileName)
+        .lat(lat)
+        .lon(lon);
     }
     
     @Override
@@ -255,6 +321,21 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder teamId(String teamId) {
       return (CopyOfBuilder) super.teamId(teamId);
+    }
+    
+    @Override
+     public CopyOfBuilder fileName(String fileName) {
+      return (CopyOfBuilder) super.fileName(fileName);
+    }
+    
+    @Override
+     public CopyOfBuilder lat(Double lat) {
+      return (CopyOfBuilder) super.lat(lat);
+    }
+    
+    @Override
+     public CopyOfBuilder lon(Double lon) {
+      return (CopyOfBuilder) super.lon(lon);
     }
   }
   

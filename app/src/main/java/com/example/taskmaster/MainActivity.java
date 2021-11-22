@@ -163,6 +163,7 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
 
         Amplify.API.query(ModelQuery.list(Team.class, Team.NAME.contains(name)),
                 res -> {
+                    Log.i(TAG, "Teams ==========================================================> " + res.getData());
                     String teamID = null;
                     for (Team item: res.getData()) {
                         teamID = item.getId();
