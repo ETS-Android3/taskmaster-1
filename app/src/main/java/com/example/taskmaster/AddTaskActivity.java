@@ -53,7 +53,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
 
         //lab 41
-
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
