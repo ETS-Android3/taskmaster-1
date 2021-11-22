@@ -238,3 +238,7 @@ In this lab, I add the ability to track. take review or feedback of all activite
 - *Adding the photo to taskmaster*
 ![Adding the photo](./app/src/screenshots/lab41-SS1.PNG)
 
+# Lab: 42 - Location
+
+- *Adding location on task detail page*
+![Map](./app/src/screenshots/lab42-SS1.PNG)

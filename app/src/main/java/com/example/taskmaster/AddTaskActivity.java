@@ -1,13 +1,21 @@
 package com.example.taskmaster;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +36,12 @@ import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,11 +51,33 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import android.provider.Settings;
+
+
 public class AddTaskActivity extends AppCompatActivity {
 
     private static final String TAG = "AddTaskActivity";
     public static Long taskCount;
     private String idTeam;
+
+    // lab 42
+    private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private final LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            Log.i(TAG, "The location is => " + mLastLocation);
+        }
+    };
+
+    private double lat;
+    private double lon;
+
+    private static final int REQUEST_PERMISSION = 123;
+    private static final int REQUEST_OPEN_GALLERY = 1111;
+    private static final int PERMISSION_ID = 44;
+
 
     //    LAB 37
     String fileName = "";
@@ -51,6 +87,14 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+
+        //lab 42
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        Button getLocationBut= findViewById(R.id.getLocationId);
+        getLocationBut.setOnClickListener(view -> {
+            getLastLocation();
+        });
 
         //lab 41
         Intent intent = getIntent();
@@ -67,7 +111,7 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         }
 
-//==================================================================================
+        //=============================================================================================
         recordEvent();
 
 
@@ -89,8 +133,8 @@ public class AddTaskActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button button = findViewById(R.id.addTask2);
-        // =================lab32
 
+        // =================lab32
         //save button onClickListener handler
         button.setOnClickListener(View -> {
 
@@ -130,7 +174,90 @@ public class AddTaskActivity extends AppCompatActivity {
         });
     }
 
-    private void getFileFromDevice() {
+
+//===========================================================================================================
+
+    // lab 42
+    @SuppressLint("MissingPermission")
+    private void getLastLocation(){
+        if (checkPermissions()) {
+
+            if (isLocationEnabled()) {
+
+                fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+
+                    Location location = task.getResult();
+
+                    if (location == null) {
+                        requestNewLocationData();
+                    } else {
+                        lat = location.getLatitude();
+                        lon = location.getLongitude();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please turn on your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivity(intent);
+            }
+        }
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        // If we want background location
+        // on Android 10.0 and higher,
+        // use:
+        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5);
+        locationRequest.setFastestInterval(0);
+        locationRequest.setNumUpdates(10);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this); // this may or may not be needed
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getFileFromDevice();
+            } else {
+                Log.i(TAG, "Error : Permission Field");
+            }
+        }
+    }
+
+    //======================================================================================
+
+    private void getFileFromDevice(){
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.setType("*/*");
         chooseFile = Intent.createChooser(chooseFile, "Choose a File");
@@ -187,7 +314,6 @@ public class AddTaskActivity extends AppCompatActivity {
     private void saveToApi(String taskTitle, String taskDescription, String taskStatus, String teamID) {
 
         Task task = Task.builder().title(taskTitle).body(taskDescription).state(taskStatus).teamId(teamID).build();
-
         System.out.println(task.toString());
 
         Amplify.API.mutate(ModelMutation.create(task),
@@ -195,20 +321,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 error -> Log.i(TAG, "Saved item: " + error.getMessage()));
     }
 
-//    private void saveToApi(String name, String taskTitle, String taskDescription, String taskStatus) {
-//
-//        final Team[] team = new Team[1];
-//        Amplify.API.query(ModelQuery.get(Team.class, name),
-//                res ->
-//                        team[0] = Team.builder().name(name).id(res.getData().getId()).build()
-//                , error -> Log.i("MainActivity", error.getMessage()));
-//
-//        Task task = Task.builder().title(taskTitle).body(taskDescription).state(taskStatus).teamId(team[0].getId()).build();
-//
-//        Amplify.API.mutate(ModelMutation.create(task),
-//                success -> Log.i(TAG, "Saved item: " + success.getData().getTitle()),
-//                error -> Log.i(TAG, "Saved item: " + error.getMessage()));
-//    }
 
     private void recordEvent(){
         AnalyticsEvent event = AnalyticsEvent.builder()
@@ -221,4 +333,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
         Amplify.Analytics.recordEvent(event);
     }
+
+
+
+
 }
