@@ -188,7 +188,6 @@ public class MainActivity<AppBarConfiguration> extends AppCompatActivity {
                 .addProperty("ProcessDuration", 792)
                 .addProperty("UserAge", 120.3)
                 .build();
-
         Amplify.Analytics.recordEvent(event);
     }
 
