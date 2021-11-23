@@ -242,3 +242,8 @@ In this lab, I add the ability to track. take review or feedback of all activite
 
 - *Adding location on task detail page*
 ![Map](./app/src/screenshots/lab42-SS2.PNG)
+
+# Lab: 43 - Kinses and pinpoint
+
+![analytic with pinpoint](./app/src/screenshots/lab43-SS1.PNG)
+
